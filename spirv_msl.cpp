@@ -13584,7 +13584,12 @@ string CompilerMSL::get_argument_address_space(const SPIRVariable &argument)
 
 bool CompilerMSL::decoration_flags_signal_volatile(const Bitset &flags)
 {
-	return flags.get(DecorationVolatile) || flags.get(DecorationCoherent);
+	return flags.get(DecorationVolatile);
+}
+
+bool CompilerMSL::decoration_flags_signal_coherent(const Bitset &flags)
+{
+	return flags.get(DecorationCoherent);
 }
 
 string CompilerMSL::get_type_address_space(const SPIRType &type, uint32_t id, bool argument)
@@ -13708,6 +13713,8 @@ string CompilerMSL::get_type_address_space(const SPIRType &type, uint32_t id, bo
 
 	if (decoration_flags_signal_volatile(flags) && 0 != strcmp(addr_space, "thread"))
 		return join("volatile ", addr_space);
+	else if (decoration_flags_signal_coherent(flags) && 0 != strcmp(addr_space, "thread"))
+		return join("coherent(device) ", addr_space);
 	else
 		return addr_space;
 }
