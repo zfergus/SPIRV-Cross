@@ -10483,6 +10483,8 @@ void CompilerMSL::emit_barrier(uint32_t id_exe_scope, uint32_t id_mem_scope, uin
 
 	statement(bar_stmt);
 
+	statement("atomic_thread_fence(mem_flags::mem_device, memory_order::memory_order_seq_cst);");
+
 	assert(current_emitting_block);
 	flush_control_dependent_expressions(current_emitting_block->self);
 	flush_all_active_variables();

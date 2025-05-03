@@ -26,3 +26,5 @@
 
 !CMakeLists.txt
 !LICENSES/*.txt
+
+.vscode
